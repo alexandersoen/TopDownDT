@@ -42,7 +42,7 @@ class TopDown:
                     return - w * (self.criterion(q) - (1 - tau) * self.criterion(p) - tau * self.criterion(r))
 
                 # Learn the best node splitter for current leaf
-                loss, h = self.learner(cur_loss_func)
+                loss, h = self.learner.learn(cur_loss_func)
                 if loss < best_loss:
                     best_loss = loss
                     best_grow = (l, h)
@@ -51,6 +51,7 @@ class TopDown:
             dtree.grow(*best_grow)
 
         return dtree
+
 
 def partition(samples, dtree: DecisionTree):
     partition = {}

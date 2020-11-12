@@ -3,7 +3,7 @@ from typing import List
 
 from tree.tree import Node, Tree, Direction
 
-id_value = lambda n: n.value
+id_value = lambda n: n.value.value
 
 class DecisionNode(Node):
     def __init__(self, value: Direction, parent: 'Node') -> None:
@@ -16,10 +16,10 @@ class DecisionNode(Node):
             return eval_f(self)
 
         # Evaluate the leaves depending on split direction
-        if self.h(x) == Direction.LEFT:
-            return self.left(x)
+        if Direction.LEFT == Direction(self.h(x)):
+            return self.left(x, eval_f=eval_f)
         else:
-            return self.right(x)
+            return self.right(x, eval_f=eval_f)
 
     def split(self, h):
         self.h = h

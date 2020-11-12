@@ -5,6 +5,9 @@ class Direction(Enum):
     LEFT = 0
     RIGHT = 1
 
+    def __eq__(self, value):
+        return self.value == value.value
+
 
 class Node:
     def __init__(self, value: Direction, parent: 'Node') -> None:
@@ -14,8 +17,8 @@ class Node:
         self.right = None
 
     def split(self, l: 'Node', r: 'Node'):
-        self.left = Node(Direction.LEFT, self)
-        self.right = Node(Direction.RIGHT, self)
+        self.left = l
+        self.right = r
 
     @property
     def is_leaf(self) -> bool:
@@ -32,9 +35,9 @@ class Node:
     def name(self) -> str:
         n = []
         cur = self
-        while cur.value:
+        while cur:
             n.append(str(cur.value.value))
-            cur = self.parent
+            cur = cur.parent
 
         return ''.join(n)
 
@@ -43,8 +46,8 @@ class Tree:
     def __init__(self, node: Node):
         self.root = node
 
-    def grow(self, l: Node, r: Node):
-        l.split(l, r)
+    def grow(self, x: Node, l: Node, r: Node):
+        x.split(l, r)
 
     @property
     def leaves(self) -> List[Node]:
@@ -63,8 +66,8 @@ class Tree:
 
     @property
     def depth(self) -> int:
-        return 1 + max(Tree(l).size for l in self.root.leaves)
+        return 1 + max((Tree(l).depth for l in self.root.children), default=0)
 
     @property
     def size(self) -> int:
-        return 1 + sum(Tree(l).size for l in self.root.leaves)
+        return 1 + sum(Tree(l).size for l in self.root.children)
