@@ -9,7 +9,7 @@ class TopDown:
         self.learner = learner
         self.criterion = criterion
 
-    def __call__(self, samples, t):
+    def __call__(self, samples, t, max_depth=3):
         _, ys = samples
 
         # Initialise T to be the single-leaf tree, majority labelled
@@ -18,7 +18,7 @@ class TopDown:
         dtree = DecisionTree(root)
 
         # While T has fewer than t internal nodes
-        while dtree.size < t:
+        while dtree.size < t or dtree.depth < max_depth:
 
             # Setup best  
             best_loss = float('inf')
