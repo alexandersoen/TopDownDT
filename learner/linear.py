@@ -5,6 +5,8 @@ from scipy.optimize import minimize
 from learner.learner import Learner
 
 class LinearSeparator(Learner):
+    """ This is currently broken.
+    """
 
     def __init__(self, dim_size):
         self.dim_size = dim_size
